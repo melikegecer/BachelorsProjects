@@ -1,0 +1,198 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <h:form>
+            <h:graphicImage url="/Interfaces/Images/logo.jpg"/>
+        </h:form>
+    </h:head>
+
+    <h:body style="background-color: silver; padding-left: 30px; padding-right: 30px;">
+        <h:form>
+            <p:menubar>
+                <p:menuitem value="Home Page" update=":form">
+                    <f:setPropertyActionListener target="#{pageTraveller.mainSelectedPage}" value="Main"/>
+                </p:menuitem>
+                <p:submenu label="Activities" >
+                    <p:submenu label="Courts">
+                        <p:menuitem value="Tennis Court" update=":form">
+                            <f:setPropertyActionListener target="#{pageTraveller.mainSelectedPage}" value="TennisCourt"/>
+                        </p:menuitem>
+                        <p:menuitem value="Golf Court" update=":form">
+                            <f:setPropertyActionListener target="#{pageTraveller.mainSelectedPage}" value="GolfCourt"/>
+                        </p:menuitem>
+                    </p:submenu>
+                    <p:submenu label="Salon Activities">
+                        <p:submenu label="Sport">
+                            <p:menuitem value="Basketball" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.mainSelectedPage}" value="Basketball"/>
+                            </p:menuitem>
+                        </p:submenu>
+                        <p:menuitem value="Swimming" update=":form">
+                            <f:setPropertyActionListener target="#{pageTraveller.mainSelectedPage}" value="Swimming"/>
+                        </p:menuitem>
+                    </p:submenu>
+                </p:submenu>
+            </p:menubar>
+        </h:form>
+        <p:layout>
+            <p:layoutUnit  position="east">
+                <h:form>
+                    <p:panelMenu style="width:300px">
+                        <p:submenu label="Activity Options">
+                            <p:menuitem value="Add New Activity" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.schedulerSelectedPage}" value="AddNewActivity"/>
+                            </p:menuitem>
+                            <p:menuitem value="Remove Activity" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.schedulerSelectedPage}" value="RemoveActivity"/>
+                            </p:menuitem>
+                            <p:menuitem value="Update Activity" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.schedulerSelectedPage}" value="UpdateActivity"/>
+                            </p:menuitem>
+                            <p:menuitem value="Show Activity" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.schedulerSelectedPage}" value="ShowActivity"/>
+                            </p:menuitem>
+                        </p:submenu>
+                        <p:submenu label="Court Options">
+                            <p:menuitem value="Add New Court" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.schedulerSelectedPage}" value="AddCourt"/>
+                            </p:menuitem>
+                        </p:submenu>
+                    </p:panelMenu>
+                </h:form>
+            </p:layoutUnit>
+            <p:layoutUnit id="main_layout" position="center" style="height: 60%">
+                <h:form id="form" style="height: inherit;">
+
+                    <h:form rendered="#{pageTraveller.schedulerSelectedPage == 'Main'}">
+                        <h:graphicImage url="/Interfaces/Images/#{pageTraveller.mainSelectedPage}.jpg" />
+                        <br/>
+                        <h:outputLabel value="#{pageTraveller.mainPageInfo}" />
+                    </h:form>
+
+                    <h:form rendered="#{pageTraveller.schedulerSelectedPage == 'AddNewActivity'}">
+                        <p:panel header="Add New Activity">
+                            <h:panelGrid columns="3" cellpadding="5">
+                                <p:outputLabel value="Activity Name " />
+                                <p:inputText value="#{addActivityControl.name}" />
+                                <br/>
+                                <p:outputLabel value="Day " />
+                                <p:selectOneMenu value="#{addActivityControl.day}"  style="width:125px">
+                                    <f:selectItem itemLabel="Sun" itemValue="Sun" />
+                                    <f:selectItem itemLabel="Mon" itemValue="Mon" />
+                                    <f:selectItem itemLabel="Tue" itemValue="Tue" />
+                                    <f:selectItem itemLabel="Wed" itemValue="Wed" />
+                                    <f:selectItem itemLabel="Thu" itemValue="Thu" />
+                                    <f:selectItem itemLabel="Fri" itemValue="Fri" />
+                                    <f:selectItem itemLabel="Sat" itemValue="Sat" />
+                                </p:selectOneMenu>
+                                <br/>
+                                <p:outputLabel value="Slot " />
+                                <p:selectOneMenu value="#{addActivityControl.slot}" style="width:125px">
+                                    <f:selectItem itemLabel="10-12" itemValue="10-12" />
+                                    <f:selectItem itemLabel="12-14" itemValue="12-14" />
+                                    <f:selectItem itemLabel="14-16" itemValue="16-18" />
+                                    <f:selectItem itemLabel="18-20" itemValue="18-20" />
+                                </p:selectOneMenu>
+                                <br/>
+                                <p:outputLabel value="Instructor Name " />
+                                <p:selectOneMenu value="#{addActivityControl.instructor}" style="width:125px">
+                                    <f:selectItems value="#{addActivityControl.ins}" var="h"  itemLabel="#{h.name} #{h.surName}" itemValue="#{h.name}"/>
+                                </p:selectOneMenu>
+                                <br/>
+                                <h:outputText value="Special Activity " />
+                                <p:selectBooleanCheckbox value="#{addActivityControl.special}" />
+                                <br/>
+                                <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{addActivityControl.checkActivity}" />
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:form>
+
+                    <h:form rendered="#{pageTraveller.schedulerSelectedPage == 'RemoveActivity'}">
+                        <p:panel header="Remove Activity">
+                            <h:panelGrid columns="1" cellpadding="5">
+                                <p:dataTable var="o" value="#{removeActivityControl.activities}" rowKey="#{o.slot}" selection="#{removeActivityControl.selectedList}" style="width:50%">
+                                    <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                                    <p:column headerText="Id" style="text-align: center">
+                                        <h:outputText value="#{o.id}" />
+                                    </p:column>
+                                    <p:column headerText="Activity Name" style="text-align: center">
+                                        <h:outputText value="#{o.name}" />
+                                    </p:column>
+
+                                    <p:column headerText="Slot" style="text-align: center">
+                                        <h:outputText value="#{o.slot}" />
+                                    </p:column>
+
+                                    <p:column headerText="Instructor Name" style="text-align: center">
+                                        <h:outputText value="#{o.instructor.name}" />
+                                    </p:column>
+                                </p:dataTable>
+                                <p:commandButton value="Submit All Selected" action="#{removeActivityControl.removeActivity}">
+                                    <f:ajax/>
+                                </p:commandButton>
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:form>
+
+                    <h:form rendered="#{pageTraveller.schedulerSelectedPage == 'UpdateActivity'}">
+                        <p:panel header="Update Activity">
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <h:panelGrid columns="1" cellpadding="3">
+                                    <p:outputLabel value="Choose Activity : " />
+                                    <p:selectOneListbox id="activity" value="#{updateActivityControl.activityName}">
+                                        <f:selectItems value="#{updateActivityControl.activities}" var="activities" itemLabel="#{activities.name}" itemValue="#{activities.name}" />
+                                    </p:selectOneListbox>
+                                    <p:commandButton value="Select" action="#{updateActivityControl.change}"/>
+                                </h:panelGrid>
+                                <h:panelGrid columns="2" cellpadding="3">
+                                    <h:outputText value="Slot "/>
+                                    <p:inputText value="#{updateActivityControl.slot}"/>
+                                    <h:outputText value="Instructor "/>
+                                    <p:inputText value="#{updateActivityControl.instructor}" />
+                                    <p:commandButton value="Update" />
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:form>
+
+                    <h:form rendered="#{pageTraveller.schedulerSelectedPage == 'ShowActivity'}">
+                        <p:panel header="Show Activity">
+                            <p:dataTable var="o" value="#{showActivityControl.activities}" style="width:50%">
+                                <p:column headerText="Id" style="text-align: center">
+                                    <h:outputText value="#{o.id}" />
+                                </p:column>
+                                <p:column headerText="Activity Name" style="text-align: center">
+                                    <h:outputText value="#{o.name}" />
+                                </p:column>
+
+                                <p:column headerText="Slot" style="text-align: center">
+                                    <h:outputText value="#{o.slot}" />
+                                </p:column>
+
+                                <p:column headerText="Instructor Name" style="text-align: center">
+                                    <h:outputText value="#{o.instructor.name}" />
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                    </h:form>
+
+                    <h:form rendered="#{pageTraveller.schedulerSelectedPage == 'AddCourt'}">
+                        <p:panel header="Add Court">
+                            <h:panelGrid columns="3" cellpadding="5">
+                                <p:outputLabel value="Court Name " />
+                                <p:inputText label="Court" value="#{addCourtControl.name}"/>
+                                <br/>
+                            </h:panelGrid>
+                            <p:commandButton value="Add" icon="ui-icon-check" actionListener="#{addCourtControl.addCourtControl}" />
+                        </p:panel>
+                    </h:form>
+                </h:form>
+            </p:layoutUnit>
+        </p:layout>
+    </h:body>
+</ui:composition>

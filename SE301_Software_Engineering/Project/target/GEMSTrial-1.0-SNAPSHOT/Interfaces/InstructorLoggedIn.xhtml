@@ -1,0 +1,110 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <h:form>
+            <h:graphicImage url="/Interfaces/Images/logo.jpg"/>
+        </h:form>
+    </h:head>
+
+    <h:body style="background-color: silver; padding-left: 30px; padding-right: 30px;">
+        <h:form>
+            <p:menubar>
+                <p:menuitem value="Home Page" update=":form">
+                    <f:setPropertyActionListener target="#{pageTraveller.mainSelectedPage}" value="Main"/>
+                </p:menuitem>
+                <p:submenu label="Activities" >
+                    <p:submenu label="Courts">
+                        <p:menuitem value="Tennis Court" update=":form">
+                            <f:setPropertyActionListener target="#{pageTraveller.mainSelectedPage}" value="TennisCourt"/>
+                        </p:menuitem>
+                        <p:menuitem value="Golf Court" update=":form">
+                            <f:setPropertyActionListener target="#{pageTraveller.mainSelectedPage}" value="GolfCourt"/>
+                        </p:menuitem>
+                    </p:submenu>
+                    <p:submenu label="Salon Activities">
+                        <p:submenu label="Sport">
+                            <p:menuitem value="Basketball" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.mainSelectedPage}" value="Basketball"/>
+                            </p:menuitem>
+                        </p:submenu>
+                        <p:menuitem value="Swimming" update=":form">
+                            <f:setPropertyActionListener target="#{pageTraveller.mainSelectedPage}" value="Swimming"/>
+                        </p:menuitem>
+                    </p:submenu>
+                </p:submenu>
+            </p:menubar>
+        </h:form>
+        <p:layout>
+            <p:layoutUnit  position="east">
+                <h:form>
+                    <p:growl autoUpdate="true"/>
+
+                    <p:panelMenu style="width:300px">
+                        <p:submenu label="Activity Options">
+                            <p:menuitem value="Show Activity Requests" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.instructorSelectedPage}" value="ShowInstructorActivityRequests"/>
+                            </p:menuitem>
+                            <p:menuitem value="Show Special Activity Requests" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.instructorSelectedPage}" value="ShowInstructorSpecialActivityRequests"/>
+                            </p:menuitem>
+                        </p:submenu>
+                    </p:panelMenu>
+                </h:form>
+            </p:layoutUnit>
+            <p:layoutUnit id="main_layout" position="center" style="height: 60%">
+                <h:form id="form" style="height: inherit;">
+                    <h:form rendered="#{pageTraveller.instructorSelectedPage == 'Main'}">
+                        <h:graphicImage url="/Interfaces/Images/#{pageTraveller.mainSelectedPage}.jpg" />
+                        <br/>
+                        <h:outputLabel value="#{pageTraveller.mainPageInfo}" />
+                    </h:form>
+
+                    <h:form rendered="#{pageTraveller.instructorSelectedPage == 'ShowInstructorActivityRequests'}">
+                        <p:panel header="Show Activity Requests">
+                            <p:dataTable var="requests" value="#{showActivityRequestsController.requestList}" rowKey="#{requests.id}" selection="#{showActivityRequestsController.selectedRequestList}" style="width: 50%">
+                                <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                                <p:column headerText="Id" style="text-align: center">
+                                    <h:outputText value="#{requests.id}" />
+                                </p:column>
+                                <p:column headerText="From" style="text-align: center">
+                                    <h:outputText value="#{requests.from}" />
+                                </p:column>
+                                <p:column headerText="Name" style="text-align: center">
+                                    <h:outputText value="#{requests.fromName}" />
+                                </p:column>
+                            </p:dataTable>
+                            <p:commandButton value="Submit All Selected" action="#{showActivityRequestsController.approveRequests}">
+                                <f:ajax/>
+                            </p:commandButton>
+                        </p:panel>
+                    </h:form>
+
+                    <h:form rendered="#{pageTraveller.instructorSelectedPage == 'ShowInstructorSpecialActivityRequests'}">
+                        <p:panel header="Show Special Activity Requests">
+                            <p:dataTable var="requests" value="#{showSpecialActivityRequestsController.requestList}" rowKey="#{requests.id}" selection="#{showSpecialActivityRequestsController.selectedRequestList}" style="width: 50%">
+                                <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                                <p:column headerText="Id" style="text-align: center">
+                                    <h:outputText value="#{requests.id}" />
+                                </p:column>
+                                <p:column headerText="From" style="text-align: center">
+                                    <h:outputText value="#{requests.from}" />
+                                </p:column>
+                                <p:column headerText="Name" style="text-align: center">
+                                    <h:outputText value="#{requests.fromName}" />
+                                </p:column>
+                            </p:dataTable>
+                            <p:commandButton value="Submit All Selected" action="#{showSpecialActivityRequestsController.approveRequests}">
+                                <f:ajax/>
+                            </p:commandButton>
+                        </p:panel>
+                    </h:form>
+                </h:form>
+            </p:layoutUnit>
+        </p:layout>
+    </h:body>
+</ui:composition>

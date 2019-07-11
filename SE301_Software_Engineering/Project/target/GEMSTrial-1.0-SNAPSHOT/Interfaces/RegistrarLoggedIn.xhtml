@@ -1,0 +1,227 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <h:form>
+            <h:graphicImage url="/Interfaces/Images/logo.jpg"/>
+        </h:form>
+    </h:head>
+
+    <h:body style="background-color: silver; padding-left: 30px; padding-right: 30px;">
+        <p:layout>
+            <p:layoutUnit  position="east" style="background-color: inherit;">
+                <h:form>
+                    <p:panelMenu style="width:300px">
+                        <p:submenu label="Member Options">
+                            <p:menuitem value="Add New Member" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.registrarSelectedPage}" value="AddNewMember"/>
+                            </p:menuitem>
+
+                            <p:menuitem value="Delete Member" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.registrarSelectedPage}" value="DeleteMember"/>
+                            </p:menuitem>
+
+                            <p:menuitem value="Upgrade to VIP" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.registrarSelectedPage}" value="UpgradeToVIP"/>
+                            </p:menuitem>
+                        </p:submenu>
+                        <p:submenu label="Instructor Options">
+                            <p:menuitem value="Add New Instructor" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.registrarSelectedPage}" value="AddNewInstructor"/>
+                            </p:menuitem>
+
+                            <p:menuitem value="Delete Instructor" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.registrarSelectedPage}" value="DeleteInstructor"/>
+                            </p:menuitem>
+                        </p:submenu>
+                        <p:submenu label="Scheduler Options">
+                            <p:menuitem value="Add New Scheduler" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.registrarSelectedPage}" value="AddNewScheduler"/>
+                            </p:menuitem>
+
+                            <p:menuitem value="Delete Scheduler" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.registrarSelectedPage}" value="DeleteScheduler"/>
+                            </p:menuitem>
+                        </p:submenu>
+                        <p:submenu label="Membership Requests">
+                            <p:menuitem value="Show Membership Requests" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.registrarSelectedPage}" value="ShowMembershipRequests"/>
+                            </p:menuitem>
+                        </p:submenu>
+                    </p:panelMenu>
+                </h:form>
+            </p:layoutUnit>
+            <p:layoutUnit id="main_layout" position="center" style="height: 60%">
+                <h:form id="form" style="height: inherit;">
+
+                    <h:form rendered="#{pageTraveller.registrarSelectedPage == 'AddNewMember'}">
+                        <p:panel header="Add New Member">
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <p:outputLabel id="f_name"  value="First Name: " />
+                                <p:inputText required="true" value="#{addNewMemberController.f_name}"/>
+                                <p:outputLabel id="l_name"  value="Last Name: " />
+                                <p:inputText required="true" value="#{addNewMemberController.l_name}"/>
+                                <p:outputLabel id="gender"  value="Gender: " />
+                                <p:selectOneMenu required="true" value="#{addNewMemberController.gender}" style="width:150px">
+                                    <f:selectItem itemLabel="Select Gender" itemValue="0" noSelectionOption="true" />
+                                    <f:selectItem itemLabel="Male" itemValue="1" />
+                                    <f:selectItem itemLabel="Female" itemValue="2" />
+                                </p:selectOneMenu>
+                                <p:outputLabel id="BDay" value="Date of Birth: " />
+                                <p:inputMask required="true" value="#{addNewMemberController.BDay}" mask="99-99-9999"/>
+                                <p:outputLabel id="phoneNumber" value="Phone Number:" />
+                                <p:inputMask required="true" value="#{addNewMemberController.phoneNumber}" mask="99999999999"/>
+                                <p:outputLabel id="address" value="Address: " />
+                                <p:inputText required="true" value="#{addNewMemberController.address}"/>
+                                <p:outputLabel id="e_mail" value="E-Mail: " />
+                                <p:inputText required="true" value="#{addNewMemberController.e_mail}"/>
+                                <p:commandButton value="Reset" type="reset" />
+                                <p:commandButton value="Submit" action="#{addNewMemberController.generateMember}">
+                                    <f:ajax/>
+                                </p:commandButton>
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:form>
+
+                    <h:form rendered="#{pageTraveller.registrarSelectedPage == 'DeleteMember'}">
+                        <p:panel header="Delete Member">
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <p:outputLabel id="id"  value="Member ID: " />
+                                <p:inputText value="#{deleteMemberController.ID}"/>
+                                <p:commandButton value="Reset" type="reset" />
+                                <p:commandButton value="Submit" action="#{deleteMemberController.deleteMember}"/>
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:form>
+
+                    <h:form rendered="#{pageTraveller.registrarSelectedPage == 'UpgradeToVIP'}">
+                        <p:panel header="Upgrade To VIP">
+                            <p:dataTable var="viprequest" value="#{showVIPRequestsController.requestList}" rowKey="#{viprequest.id}" selection="#{showVIPRequestsController.selectedRequestList}" style="width: 50%">
+                                <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                                <p:column headerText="ID" sortBy="#{viprequest.id}">
+                                    <h:outputText value="#{viprequest.id}" />
+                                </p:column>
+                                <p:column headerText="From" sortBy="#{viprequest.from}">
+                                    <h:outputText value="#{viprequest.from}" />
+                                </p:column>
+                                <p:column headerText="Name" sortBy="#{viprequest.fromName}">
+                                    <h:outputText value="#{viprequest.fromName}" />
+                                </p:column>
+                            </p:dataTable>
+                            <p:commandButton value="Submit All Selected" action="#{showVIPRequestsController.approveRequests()}">
+                                <f:ajax/>
+                            </p:commandButton>
+                        </p:panel>
+                    </h:form>
+
+                    <h:form rendered="#{pageTraveller.registrarSelectedPage == 'AddNewInstructor'}">
+                        <p:panel header="Add New Instructor">
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <p:outputLabel id="f_name"  value="First Name: " />
+                                <p:inputText required="true" value="#{addNewInstructorController.f_name}"/>
+                                <p:outputLabel id="l_name"  value="Last Name: " />
+                                <p:inputText required="true" value="#{addNewInstructorController.l_name}"/>
+                                <p:outputLabel id="gender"  value="Gender: " />
+                                <p:selectOneMenu required="true" value="#{addNewInstructorController.gender}" style="width:150px">
+                                    <f:selectItem itemLabel="Select Gender" itemValue="0" noSelectionOption="true" />
+                                    <f:selectItem itemLabel="Male" itemValue="1" />
+                                    <f:selectItem itemLabel="Female" itemValue="2" />
+                                </p:selectOneMenu>
+                                <p:outputLabel id="BDay" value="Date of Birth: " />
+                                <p:inputMask required="true" value="#{addNewInstructorController.BDay}" mask="99-99-9999"/>
+                                <p:outputLabel id="phoneNumber" value="Phone Number:" />
+                                <p:inputMask required="true" value="#{addNewInstructorController.phoneNumber}" mask="99999999999"/>
+                                <p:outputLabel id="address" value="Address: " />
+                                <p:inputText required="true" value="#{addNewInstructorController.address}"/>
+                                <p:outputLabel id="e_mail" value="E-Mail: " />
+                                <p:inputText required="true" value="#{addNewInstructorController.e_mail}"/>
+                                <p:commandButton value="Submit" action="#{addNewInstructorController.generateInstructor}">
+                                    <p:commandButton value="Reset" type="reset" />
+                                    <f:ajax/>
+                                </p:commandButton>
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:form>
+
+                    <h:form rendered="#{pageTraveller.registrarSelectedPage == 'DeleteInstructor'}">
+                        <p:panel header="Delete Instructor">
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <p:outputLabel id="id"  value="Instructor ID: " />
+                                <p:inputText value="#{deleteInstructorController.ID}"/>
+                                <p:commandButton value="Submit" action="#{deleteInstructorController.deleteInstructor}"/>
+                                <p:commandButton value="Reset" type="reset" />
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:form>
+
+                    <h:form rendered="#{pageTraveller.registrarSelectedPage == 'AddNewScheduler'}">
+                        <p:panel header="Add New Scheduler">
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <p:outputLabel id="f_name"  value="First Name: " />
+                                <p:inputText value="#{addNewSchedulerController.f_name}"/>
+                                <p:outputLabel id="l_name"  value="Last Name: " />
+                                <p:inputText value="#{addNewSchedulerController.l_name}"/>
+                                <p:outputLabel id="gender"  value="Gender: " />
+                                <p:selectOneMenu value="#{addNewSchedulerController.gender}" style="width:150px">
+                                    <f:selectItem itemLabel="Select Gender" itemValue="0" noSelectionOption="true" />
+                                    <f:selectItem itemLabel="Male" itemValue="1" />
+                                    <f:selectItem itemLabel="Female" itemValue="2" />
+                                </p:selectOneMenu>
+                                <p:outputLabel id="BDay" value="Date of Birth: " />
+                                <p:inputMask value="#{addNewSchedulerController.BDay}" mask="99-99-9999"/>
+                                <p:outputLabel id="phoneNumber" value="Phone Number:" />
+                                <p:inputMask value="#{addNewSchedulerController.phoneNumber}" mask="99999999999"/>
+                                <p:outputLabel id="address" value="Address: " />
+                                <p:inputText value="#{addNewSchedulerController.address}"/>
+                                <p:outputLabel id="e_mail" value="E-Mail: " />
+                                <p:inputText value="#{addNewSchedulerController.e_mail}"/>
+                                <p:commandButton value="Submit" action="#{addNewSchedulerController.generateScheduler}">
+                                    <p:commandButton value="Reset" type="reset" />
+                                    <f:ajax/>
+                                </p:commandButton>
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:form>
+
+                    <h:form rendered="#{pageTraveller.registrarSelectedPage == 'DeleteScheduler'}">
+                        <p:panel header="Delete Scheduler">
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <p:outputLabel id="id"  value="Scheduler ID: " />
+                                <p:inputText value="#{deleteSchedulerController.ID}"/>
+                                <p:commandButton value="Submit" action="#{deleteSchedulerController.deleteScheduler}"/>
+                                <p:commandButton value="Reset" type="reset" />
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:form>
+
+                    <h:form rendered="#{pageTraveller.registrarSelectedPage == 'ShowMembershipRequests'}">
+                        <p:panel header="Show Membership Requests">
+                            <p:dataTable var="requests" value="#{showMembershipRequestsController.requestList}" rowKey="#{requests.id}" selection="#{showMembershipRequestsController.selectedRequestList}" style="width: 50%">
+                                <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+                                <p:column headerText="Id" style="text-align: center">
+                                    <h:outputText value="#{requests.id}" />
+                                </p:column>
+                                <p:column headerText="Name" style="text-align: center">
+                                    <h:outputText value="#{requests.name}" />
+                                </p:column>
+                                <p:column headerText="Surname" style="text-align: center">
+                                    <h:outputText value="#{requests.surname}" />
+                                </p:column>
+                                <p:column headerText="Phone Number" style="text-align: center">
+                                    <h:outputText value="#{requests.phoneNumber}" />
+                                </p:column>
+                                <p:column headerText="Email" style="text-align: center">
+                                    <h:outputText value="#{requests.email}" />
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                    </h:form>
+                </h:form>
+            </p:layoutUnit>
+        </p:layout>
+    </h:body>
+</ui:composition>

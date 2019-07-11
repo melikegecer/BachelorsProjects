@@ -1,0 +1,229 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <h:form>
+            <h:graphicImage url="/Interfaces/Images/logo.jpg"/>
+        </h:form>
+    </h:head>
+
+    <h:body style="background-color: silver; padding-left: 35px; padding-right: 30px;">
+        <h:form>
+            <p:menubar>
+                <p:menuitem value="Home Page" update=":form">
+                    <f:setPropertyActionListener target="#{pageTraveller.mainSelectedPage}" value="Main"/>
+                </p:menuitem>
+                <p:submenu label="Activities" >
+                    <p:submenu label="Courts">
+                        <p:menuitem value="Tennis Court" update=":form">
+                            <f:setPropertyActionListener target="#{pageTraveller.mainSelectedPage}" value="TennisCourt"/>
+                        </p:menuitem>
+                        <p:menuitem value="Golf Court" update=":form">
+                            <f:setPropertyActionListener target="#{pageTraveller.mainSelectedPage}" value="GolfCourt"/>
+                        </p:menuitem>
+                    </p:submenu>
+                    <p:submenu label="Salon Activities">
+                        <p:submenu label="Sport">
+                            <p:menuitem value="Basketball" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.mainSelectedPage}" value="Basketball"/>
+                            </p:menuitem>
+                        </p:submenu>
+                        <p:menuitem value="Swimming" update=":form">
+                            <f:setPropertyActionListener target="#{pageTraveller.mainSelectedPage}" value="Swimming"/>
+                        </p:menuitem>
+                    </p:submenu>
+                </p:submenu>
+            </p:menubar>
+        </h:form>
+        <p:layout>
+            <p:layoutUnit  position="east" style="background-color: inherit;">
+                <h:form>
+                    <p:panelMenu style="width:350px">
+                        <p:submenu label="My Profile">
+                            <p:menuitem value="Update Info" icon="ui-icon-arrowrefresh-1-w" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.memberSelectedPage}" value="MemberUpdateInfo"/>
+                            </p:menuitem>
+                        </p:submenu>
+                        <p:separator />
+                        <p:submenu label="Schedule Options" >
+                            <p:menuitem value="Show Schedule" icon="ui-icon-calendar" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.memberSelectedPage}" value="MemberShowSchedule"/>
+                            </p:menuitem>
+
+                            <p:menuitem value="Join An Activity" icon="ui-icon-plusthick" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.memberSelectedPage}" value="MemberJoinActivity"/>
+                            </p:menuitem>
+
+                            <p:menuitem value="Quit Activity" icon="ui-icon-closethick" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.memberSelectedPage}" value="MemberQuitActivity"/>
+                            </p:menuitem>
+                        </p:submenu>
+                        <p:separator />
+                        <p:submenu label="Pay For VIP" icon="ui-icon-cart" >
+                            <p:menuitem value="Pay Later With Cash"  update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.memberSelectedPage}" value="MemberPayCash"/>
+                            </p:menuitem>
+                            <p:menuitem value="Pay With Card"  update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.memberSelectedPage}" value="MemberPayCard"/>
+                            </p:menuitem>
+                        </p:submenu>          
+                    </p:panelMenu>
+                </h:form>
+            </p:layoutUnit>
+            <p:layoutUnit id="main_layout" position="center" style="height: 60%">
+                <h:form id="form" style="height: inherit;">
+
+                    <h:form rendered="#{pageTraveller.memberSelectedPage == 'Main'}">
+                        <h:graphicImage url="/Interfaces/Images/#{pageTraveller.mainSelectedPage}.jpg" />
+                        <br/>
+                        <h:outputLabel value="#{pageTraveller.mainPageInfo}" />
+                    </h:form>
+
+                    <h:form rendered="#{pageTraveller.memberSelectedPage == 'MemberUpdateInfo'}">
+                        <p:panel header="Update Info">
+                            <h:panelGrid columns="2" columnClasses="column" cellpadding="5">                        
+                                <h:outputLabel for="phone" value="Phone:" />
+                                <p:inputMask value="#{updateMembersInfo.memberPhone}" required="true" label="memberPhone" mask="99999999999"/>
+                                <h:outputLabel for="address" value="Address:" />
+                                <p:inputText value="#{updateMembersInfo.memberAddress}" required="true" label="memberAdress" />
+                                <h:outputLabel for="email" value="E-mail:" />
+                                <p:inputText value="#{updateMembersInfo.memberEmail}" required="true" label="memberEmail" />
+                                <p:commandButton value="Reset" type="reset"/>
+                                <p:commandButton value="Submit" action="#{updateMembersInfo.sendUpdateInfo}">
+                                    <f:ajax/>
+                                </p:commandButton>
+                            </h:panelGrid>   
+                        </p:panel>
+                    </h:form>
+
+                    <h:form rendered="#{pageTraveller.memberSelectedPage == 'MemberShowSchedule'}">
+                        <p:panel header="Show Schedule">
+                            <p:dataTable var="day" value="#{dtMemberShowSchedule.memberSchedule}">  
+                                <p:column headerText="SLOT">
+                                    <h:outputText value="#{day.slot}" />
+                                </p:column>
+                                <p:column headerText="MONDAY">
+                                    <h:outputText value="#{day.monday}" />
+                                </p:column>
+                                <p:column headerText="TUESDAY">
+                                    <h:outputText value="#{day.tuesday}" />                        
+                                </p:column>
+                                <p:column headerText="WEDNESDAY">
+                                    <h:outputText value="#{day.wednesday}" />
+                                </p:column>
+                                <p:column headerText="THURSDAY">
+                                    <h:outputText value="#{day.thursday}" />
+                                </p:column>                    
+                                <p:column headerText="FRIDAY">
+                                    <h:outputText value="#{day.friday}" />
+                                </p:column>                    
+                                <p:column headerText="SATURDAY">
+                                    <h:outputText value="#{day.saturday}" />
+                                </p:column>
+                                <p:column headerText="SUNDAY">
+                                    <h:outputText value="#{day.sunday}" />
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                    </h:form>
+
+                    <h:form rendered="#{pageTraveller.memberSelectedPage == 'MemberJoinActivity'}">
+                        <p:panel header="Join An Activity">
+                            <p:dataTable id="checkboxDT" var="activity" value="#{dtMemberJoinActivity.activities}" selection="#{dtMemberJoinActivity.selectedActivity}" rowKey="#{activity.id}" style="margin-bottom:0">
+                                <f:facet name="header">
+                                    Activities
+                                </f:facet>
+                                <p:column selectionMode="single" style="width:16px;text-align:center"/>
+                                <p:column headerText="ID">
+                                    <h:outputText value="#{activity.id}"/>
+                                </p:column>
+                                <p:column headerText="Activity">
+                                    <h:outputText value="#{activity.name}" />                            
+                                </p:column>
+                                <p:column headerText="Slot">
+                                    <h:outputText value="#{activity.slot}" />
+                                </p:column>                                
+                            </p:dataTable>
+                            <h:panelGrid columns="2" cellpadding="5">                                                   
+                                <p:commandButton value="Submit" action="#{dtMemberJoinActivity.sendJoinActivityRequest}">
+                                    <f:ajax/>
+                                </p:commandButton>
+                            </h:panelGrid>   
+                        </p:panel>
+                    </h:form>
+
+                    <h:form rendered="#{pageTraveller.memberSelectedPage == 'MemberQuitActivity'}">
+                        <p:panel header="Quit Activity">
+                            <p:dataTable id="checkboxDT" var="activity" value="#{dtMemberQuitActivity.membersActivities}" selection="#{dtMemberQuitActivity.selectedActivity}" rowKey="#{activity.id}" style="margin-bottom:0">
+                                <f:facet name="header">
+                                    Activities
+                                </f:facet>
+                                <p:column selectionMode="single" style="width:16px;text-align:center"/>
+                                <p:column headerText="ID">
+                                    <h:outputText value="#{activity.id}"/>
+                                </p:column>
+                                <p:column headerText="Activity">
+                                    <h:outputText value="#{activity.name}" />                            
+                                </p:column>
+                                <p:column headerText="Slot">
+                                    <h:outputText value="#{activity.slot}" />
+                                </p:column>                                
+                            </p:dataTable>
+                            <h:panelGrid columns="2" cellpadding="5">                        
+                                <p:commandButton value="Reset" type="reset" />
+                                <p:commandButton value="Submit" action="#{dtMemberQuitActivity.quitActivity}">
+                                    <f:ajax/>
+                                </p:commandButton>
+                            </h:panelGrid>    
+                        </p:panel>
+                    </h:form>
+
+                    <h:form rendered="#{pageTraveller.memberSelectedPage == 'MemberPayCash'}">
+                        <p:panel header="Pay Cash">
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <h:outputLabel for="name" value="Name: "/>
+                                <h:outputText value="#{memberPayWithCash.memberName}" />  
+                                <h:outputLabel for="surname" value="Surname: "/>
+                                <h:outputText value="#{memberPayWithCash.memberSurname}"/>
+                                <h:outputLabel for="phone" value="Phone: " />
+                                <h:outputText value="#{memberPayWithCash.memberPhone}"  />
+                                <h:outputLabel for="address" value="Address: " />
+                                <h:outputText value="#{memberPayWithCash.memberAddress}" />
+                                <h:outputLabel for="email" value="E-mail: " />
+                                <h:outputText value="#{memberPayWithCash.memberEmail}" />
+                                <p:commandButton value="Approve and Send Request" action="#{memberPayWithCash.sendVIPRequest}">
+                                    <f:ajax/>
+                                </p:commandButton>
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:form>
+
+                    <h:form rendered="#{pageTraveller.memberSelectedPage == 'MemberPayCard'}">
+                         <p:panel header="Pay With Card">
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <p:outputLabel for="cardOwnerName" value="Card Owner Name: " />
+                                <p:inputText id="cardOwnerName" value="#{memberPayWithCard.cardOwnerName}"/>
+
+                                <p:outputLabel for="cardNumber" value="Card Number: " />
+                                <p:inputMask id="cardNumber" value="#{memberPayWithCard.cardNumber}" mask="9999-9999-9999-9999" />
+
+                                <p:outputLabel for="cardValidationDate" value="Card Validation Date: " />
+                                <p:inputMask id="cardValidationDate" value="#{memberPayWithCard.cardValidationDate}" mask="99/99/9999"/>
+
+                                <p:outputLabel for="cardSecurityNumber" value="Card Security Number: " />
+                                <p:inputMask id="cardSecurityNumber" value="#{memberPayWithCard.cardSecurityNumber}" mask="999"/>
+
+                                <p:commandButton value="Reset" type="reset" />
+                                <p:commandButton value="Approve and Send Request" action="#{memberPayWithCard.sendRequestToRegistrar}" />
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:form>
+                </h:form>
+            </p:layoutUnit>
+        </p:layout>
+    </h:body>
+</ui:composition>

@@ -1,0 +1,321 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <h:head>
+        <h:form>
+            <h:graphicImage url="/Interfaces/Images/logo.png"/>
+        </h:form>
+    </h:head>
+
+
+    <h:body style="background-color: silver; padding-left: 30px; padding-right: 30px;">
+        <h:form>
+            <p:menubar>
+                <p:menuitem value="Home Page" update=":form">
+                    <f:setPropertyActionListener target="#{pageTraveller.mainSelectedPage}" value="Main"/>
+                </p:menuitem>
+                <p:submenu label="Activities" >
+                    <p:submenu label="Courts">
+                        <p:menuitem value="Tennis Court" update=":form">
+                            <f:setPropertyActionListener target="#{pageTraveller.mainSelectedPage}" value="TennisCourt"/>
+                        </p:menuitem>
+                        <p:menuitem value="Golf Court" update=":form">
+                            <f:setPropertyActionListener target="#{pageTraveller.mainSelectedPage}" value="GolfCourt"/>
+                        </p:menuitem>
+                    </p:submenu>
+                    <p:submenu label="Salon Activities">
+                        <p:submenu label="Sport">
+                            <p:menuitem value="Basketball" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.mainSelectedPage}" value="Basketball"/>
+                            </p:menuitem>
+                        </p:submenu>
+                        <p:menuitem value="Swimming" update=":form">
+                            <f:setPropertyActionListener target="#{pageTraveller.mainSelectedPage}" value="Swimming"/>
+                        </p:menuitem>
+                    </p:submenu>
+                </p:submenu>
+            </p:menubar>
+        </h:form>
+        <p:layout>
+            <p:layoutUnit  position="east" style="background-color: inherit;">
+                <h:form>
+                    <p:panelMenu style="width:300px">
+                        <p:submenu label="My Profile">
+                            <p:menuitem value="Update Info" icon="ui-icon-arrowrefresh-1-w" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.vipmemberSelectedPage}" value="VIPUpdateInfo"/>
+                            </p:menuitem>
+                        </p:submenu>
+
+                        <p:submenu label="Schedule Options">
+                            <p:menuitem value="Show Schedule"  icon="ui-icon-calendar" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.vipmemberSelectedPage}" value="VIPShowSchedule"/>
+                            </p:menuitem>
+
+                            <p:menuitem value="Join An Activity"  icon="ui-icon-plusthick" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.vipmemberSelectedPage}" value="VIPJoinActivity"/>
+                            </p:menuitem>
+
+                            <p:menuitem value="Join A Special Activity"  icon="ui-icon-plusthick" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.vipmemberSelectedPage}" value="VIPJoinSpecialActivity"/>
+                            </p:menuitem>
+
+                            <p:menuitem value="Quit Activity" icon="ui-icon-closethick" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.vipmemberSelectedPage}" value="VIPQuitActivity"/>
+                            </p:menuitem>
+
+                            <p:menuitem value="Quit Special Activity" icon="ui-icon-closethick" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.vipmemberSelectedPage}" value="VIPQuitSpecialActivity"/>
+                            </p:menuitem>
+
+                            <p:menuitem value="Reserve Court"  icon="ui-icon-pin-s" update=":form">
+                                <f:setPropertyActionListener target="#{pageTraveller.vipmemberSelectedPage}" value="VIPReserveCourt"/>
+                            </p:menuitem>
+                        </p:submenu>
+                    </p:panelMenu>
+                </h:form>
+            </p:layoutUnit>
+            <p:layoutUnit id="main_layout" position="center" style="height: 60%">
+                <h:form id="form" style="height: inherit;">
+
+                    <h:form rendered="#{pageTraveller.vipmemberSelectedPage == 'Main'}">
+                        <h:graphicImage url="/Interfaces/Images/#{pageTraveller.mainSelectedPage}.jpg" />
+                        <br/>
+                        <h:outputLabel value="#{pageTraveller.mainPageInfo}" />
+                    </h:form>
+
+                    <h:form rendered="#{pageTraveller.vipmemberSelectedPage == 'VIPUpdateInfo'}">
+                        <p:panel header="Update Info">
+                            <h:panelGrid columns="2" columnClasses="column" cellpadding="5">                        
+                                <h:outputLabel for="phone" value="Phone:" />
+                                <p:inputMask value="#{updateMembersInfo.memberPhone}"  label="memberPhone" mask="99999999999"/>
+                                <h:outputLabel for="address" value="Address:" />
+                                <p:inputText value="#{updateMembersInfo.memberAddress}" required="true" label="memberAdress" />
+                                <h:outputLabel for="email" value="E-mail:" />
+                                <p:inputText value="#{updateMembersInfo.memberEmail}" required="true" label="memberEmail" />
+                                <p:commandButton value="Reset" type="reset"/>
+                                <p:commandButton value="Submit" action="#{updateMembersInfo.sendUpdateInfo}">
+                                    <f:ajax/>
+                                </p:commandButton>
+                            </h:panelGrid>   
+                        </p:panel>
+                    </h:form>
+
+                    <h:form rendered="#{pageTraveller.vipmemberSelectedPage == 'VIPShowSchedule'}">
+                        <p:panel header="Show Schedule">
+                            <p:dataTable var="day" value="#{dtVIPShowSchedule.VIPSchedule}" >
+                                <p:column headerText="SLOT">
+                                    <h:outputText value="#{day.slot}" />
+                                </p:column>
+                                <p:column headerText="MONDAY">
+                                    <h:outputText value="#{day.monday}" />
+                                </p:column>
+                                <p:column headerText="TUESDAY">
+                                    <h:outputText value="#{day.tuesday}" />                        
+                                </p:column>
+                                <p:column headerText="WEDNESDAY">
+                                    <h:outputText value="#{day.wednesday}" />
+                                </p:column>
+                                <p:column headerText="THURSDAY">
+                                    <h:outputText value="#{day.thursday}" />
+                                </p:column>                    
+                                <p:column headerText="FRIDAY">
+                                    <h:outputText value="#{day.friday}" />
+                                </p:column>                    
+                                <p:column headerText="SATURDAY">
+                                    <h:outputText value="#{day.saturday}" />
+                                </p:column>
+                                <p:column headerText="SUNDAY">
+                                    <h:outputText value="#{day.sunday}" />
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                    </h:form>
+
+                    <h:form rendered="#{pageTraveller.vipmemberSelectedPage == 'VIPJoinActivity'}">
+                        <p:panel header="Join An Activity">
+                            <p:dataTable id="checkboxDT" var="activity" value="#{dtMemberJoinActivity.activities}" selection="#{dtMemberJoinActivity.selectedActivity}" rowKey="#{activity.id}" style="margin-bottom:0">
+                                <f:facet name="header">
+                                    Activities
+                                </f:facet>
+                                <p:column selectionMode="single" style="width:16px;text-align:center"/>
+                                <p:column headerText="ID">
+                                    <h:outputText value="#{activity.id}"/>
+                                </p:column>
+                                <p:column headerText="Activity">
+                                    <h:outputText value="#{activity.name}" />                            
+                                </p:column>
+                                <p:column headerText="Slot">
+                                    <h:outputText value="#{activity.slot}" />
+                                </p:column>                                
+                            </p:dataTable>
+                            <h:panelGrid columns="2" cellpadding="5">                                                   
+                                <p:commandButton value="Submit" action="#{dtMemberJoinActivity.sendJoinActivityRequest}">
+                                    <f:ajax/>
+                                </p:commandButton>
+                            </h:panelGrid>   
+                        </p:panel>
+                    </h:form>
+
+                    <h:form rendered="#{pageTraveller.vipmemberSelectedPage == 'VIPJoinSpecialActivity'}">
+                        <p:panel header="Join Special Activity">
+                            <p:dataTable id="checkboxDT" var="specialactivity" value="#{dtVIPJoinsSpecialActivity.allSpecialActivities}" selection="#{dtVIPJoinsSpecialActivity.selectedSpecialActivity}" rowKey="#{specialactivity.id}" style="margin-bottom:0">
+                                <f:facet name="header">
+                                    Special Activities
+                                </f:facet>
+                                <p:column selectionMode="single" style="width:16px;text-align:center"/>
+                                <p:column headerText="ID">
+                                    <h:outputText value="#{specialactivity.id}"/>
+                                </p:column>
+                                <p:column headerText="Activity">
+                                    <h:outputText value="#{specialactivity.name}" />                            
+                                </p:column>
+                                <p:column headerText="Slot">
+                                    <h:outputText value="#{specialactivity.slot}" />
+                                </p:column>                                
+                            </p:dataTable>
+                            <h:panelGrid columns="2" cellpadding="5">                                                   
+                                <p:commandButton value="Submit" action="#{dtVIPJoinsSpecialActivity.sendJoinSpecialActivityRequest}">
+                                    <f:ajax/>
+                                </p:commandButton>
+                            </h:panelGrid> 
+                        </p:panel>
+                    </h:form>
+
+                    <h:form rendered="#{pageTraveller.vipmemberSelectedPage == 'VIPQuitActivity'}">
+                        <p:panel header="Quit Activity">
+                            <p:dataTable id="checkboxDT" var="activity" value="#{dtMemberQuitActivity.membersActivities}" selection="#{dtMemberQuitActivity.selectedActivity}" rowKey="#{activity.id}" style="margin-bottom:0">
+                                <f:facet name="header">
+                                    Activities
+                                </f:facet>
+                                <p:column selectionMode="single" style="width:16px;text-align:center"/>
+                                <p:column headerText="ID">
+                                    <h:outputText value="#{activity.id}"/>
+                                </p:column>
+                                <p:column headerText="Activity">
+                                    <h:outputText value="#{activity.name}" />                            
+                                </p:column>
+                                <p:column headerText="Slot">
+                                    <h:outputText value="#{activity.slot}" />
+                                </p:column>                                
+                            </p:dataTable>
+                            <h:panelGrid columns="2" cellpadding="5">                        
+                                <p:commandButton value="Reset" type="reset" />
+                                <p:commandButton value="Submit" action="#{dtMemberQuitActivity.quitActivity}">
+                                    <f:ajax/>
+                                </p:commandButton>
+                            </h:panelGrid>    
+                        </p:panel>
+                    </h:form>
+
+                    <h:form rendered="#{pageTraveller.vipmemberSelectedPage == 'VIPQuitSpecialActivity'}">
+                        <p:panel header="Quit Special Activity">
+                            <p:dataTable id="checkboxDT" var="specialactivity" value="#{dtVIPQuitSpecialActivity.VIPMembersSpecialActivities}" selection="#{dtVIPQuitSpecialActivity.selectedSpecialActivity}" rowKey="#{specialactivity.id}" style="margin-bottom:0">
+                                <f:facet name="header">
+                                    Special Activities
+                                </f:facet>
+                                <p:column selectionMode="single" style="width:16px;text-align:center"/>
+                                <p:column headerText="ID">
+                                    <h:outputText value="#{specialactivity.id}"/>
+                                </p:column>
+                                <p:column headerText="Activity">
+                                    <h:outputText value="#{specialactivity.name}" />                            
+                                </p:column>
+                                <p:column headerText="Slot">
+                                    <h:outputText value="#{specialactivity.slot}" />
+                                </p:column>  
+                            </p:dataTable>
+                            <h:panelGrid columns="2" cellpadding="5">                        
+                                <p:commandButton value="Reset" type="reset" />
+                                <p:commandButton value="Submit" action="#{dtVIPQuitSpecialActivity.quitSpecialActivity}">
+                                    <f:ajax/>
+                                </p:commandButton>
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:form>
+
+
+                    <h:form rendered="#{pageTraveller.vipmemberSelectedPage == 'VIPReserveCourt'}">
+                        <p:panel header="Reserve Court">
+                            <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                <p:outputLabel for="console" value="Court: " />
+                                <p:selectOneMenu id="console" value="#{dtVIPReserveCourt.selectedCourtName}" style="width:125px">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItems var="allCourts" value="#{dtVIPReserveCourt.allCourts}" itemLabel="#{allCourts.name}" itemValue="#{allCourts.name}"/>                            
+                                </p:selectOneMenu>
+                                <p:commandButton value="Select" >
+                                    <p:ajax  update="datatable" listener="#{dtVIPReserveCourt.selectedCourtName}" />
+                                </p:commandButton>
+                            </h:panelGrid>
+
+                            <p:separator />
+
+                            <p:dataTable id="datatable" var="day" value="#{dtVIPReserveCourt.courtSchedule}" >
+                                <p:column headerText="SLOT">
+                                    <h:outputText value="#{day.slot}" />
+                                </p:column>
+                                <p:column headerText="MONDAY">
+                                    <h:outputText value="#{day.monday}" />
+                                </p:column>
+                                <p:column headerText="TUESDAY">
+                                    <h:outputText value="#{day.tuesday}" />                        
+                                </p:column>
+                                <p:column headerText="WEDNESDAY">
+                                    <h:outputText value="#{day.wednesday}" />
+                                </p:column>
+                                <p:column headerText="THURSDAY">
+                                    <h:outputText value="#{day.thursday}" />
+                                </p:column>                    
+                                <p:column headerText="FRIDAY">
+                                    <h:outputText value="#{day.friday}" />
+                                </p:column>                    
+                                <p:column headerText="SATURDAY">
+                                    <h:outputText value="#{day.saturday}" />
+                                </p:column>
+                                <p:column headerText="SUNDAY">
+                                    <h:outputText value="#{day.sunday}" />
+                                </p:column>
+                            </p:dataTable>
+
+                            <p:separator />
+
+                            <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                <p:outputLabel for="console" value="Day: " />
+                                <p:selectOneMenu id="dayoftheweek" value="#{dtVIPReserveCourt.selectedDay}" style="width:125px">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItem itemLabel="Monday" itemValue="Monday" />
+                                    <f:selectItem itemLabel="Tuesday" itemValue="Tuesday" />
+                                    <f:selectItem itemLabel="Wednesday" itemValue="Wednesday" />
+                                    <f:selectItem itemLabel="Thursday" itemValue="Thursday" />
+                                    <f:selectItem itemLabel="Friday" itemValue="Friday" />
+                                    <f:selectItem itemLabel="Saturday" itemValue="Saturday" />
+                                    <f:selectItem itemLabel="Sunday" itemValue="Sunday" />                                                          
+                                </p:selectOneMenu>
+                                <p:outputLabel for="console" value="Slot: " />
+                                <p:selectOneMenu id="slotoftheday" value="#{dtVIPReserveCourt.selectedSlot}" style="width:125px">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />  
+                                    <f:selectItem itemLabel="08-10" itemValue="08-10" />
+                                    <f:selectItem itemLabel="10-12" itemValue="10-12" />
+                                    <f:selectItem itemLabel="12-14" itemValue="12-14" />
+                                    <f:selectItem itemLabel="14-16" itemValue="14-16" />
+                                    <f:selectItem itemLabel="16-18" itemValue="16-18" />
+                                    <f:selectItem itemLabel="18-20" itemValue="18-20" />
+                                    <f:selectItem itemLabel="20-22" itemValue="20-22" />    
+                                </p:selectOneMenu>                              
+
+                                <p:commandButton value="Reset" type="reset" />
+                                <p:commandButton value="Submit" action="#{dtVIPReserveCourt.reserveTheCourt}">
+                                    <f:ajax/>
+                                </p:commandButton>
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:form>                    
+                </h:form>
+            </p:layoutUnit>
+        </p:layout>
+    </h:body>
+</ui:composition>
