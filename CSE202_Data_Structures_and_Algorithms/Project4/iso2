@@ -1,0 +1,28 @@
+8
+citynames
+x y z t v w m n 
+edges
+x y 2
+x v 2
+x t 2
+y x 2
+y w 2
+y z 2
+z y 2
+z m 2
+z t 2
+t x 2
+t n 2
+t z 2
+v x 2
+v w 2
+v n 2
+w y 2
+w v 2
+w m 2
+m w 2
+m n 2
+m z 2
+n v 2
+n m 2
+n t 2

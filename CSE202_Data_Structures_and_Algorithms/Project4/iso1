@@ -1,0 +1,28 @@
+8
+citynames
+a b c d g h i j
+edges
+a g 1 
+a h 1 
+a i 1
+b g 1
+b h 1
+b j 1
+c g 1
+c i 1
+c j 1
+d h 1
+d i 1
+d j 1
+g b 1
+g c 1
+g a 1
+h a 1
+h b 1
+h d 1
+i a 1
+i c 1
+i d 1
+j b 1
+j c 1
+j d 1

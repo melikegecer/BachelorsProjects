@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" stylesheets="@SecondFrameStyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="movielibraryfx.SecondFrameController">
+   <children>
+      <TableView fx:id="movieTableView" editable="true" pickOnBounds="false" prefHeight="600.0" prefWidth="400.0" HBox.hgrow="ALWAYS">
+         <columns>
+            <TableColumn fx:id="watchedColumn" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" resizable="false" />
+            <TableColumn fx:id="posterColumn" editable="false" maxWidth="107.0" minWidth="107.0" prefWidth="107.0" resizable="false" sortable="false" text="Movie Poster" />
+            <TableColumn fx:id="nameColumn" editable="false" prefWidth="75.0" resizable="false" text="Name" />
+            <TableColumn fx:id="yearColumn" editable="false" maxWidth="35.0" minWidth="35.0" prefWidth="35.0" resizable="false" text="Year" />
+            <TableColumn fx:id="typesColumn" editable="false" prefWidth="75.0" resizable="false" sortable="false" text="Types" />
+            <TableColumn fx:id="directorColumn" editable="false" prefWidth="75.0" resizable="false" sortable="false" text="Director" />
+         </columns>
+      </TableView>
+   </children>
+</HBox>

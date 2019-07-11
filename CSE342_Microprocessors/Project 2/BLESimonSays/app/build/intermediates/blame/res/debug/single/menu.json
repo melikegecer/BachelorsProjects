@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "D:\\Downloads\\Remote\\RemoteAndroid\\BLESimonSays\\app\\build\\intermediates\\res\\merged\\debug\\menu\\gatt_services.xml",
+        "source": "D:\\Downloads\\Remote\\RemoteAndroid\\BLESimonSays\\app\\src\\main\\res\\menu\\gatt_services.xml"
+    },
+    {
+        "merged": "D:\\Downloads\\Remote\\RemoteAndroid\\BLESimonSays\\app\\build\\intermediates\\res\\merged\\debug\\menu\\main.xml",
+        "source": "D:\\Downloads\\Remote\\RemoteAndroid\\BLESimonSays\\app\\src\\main\\res\\menu\\main.xml"
+    },
+    {
+        "merged": "D:\\Downloads\\BLESimonSays\\app\\build\\intermediates\\res\\merged\\debug\\menu\\gatt_services.xml",
+        "source": "D:\\Downloads\\BLESimonSays\\app\\src\\main\\res\\menu\\gatt_services.xml"
+    },
+    {
+        "merged": "D:\\Downloads\\BLESimonSays\\app\\build\\intermediates\\res\\merged\\debug\\menu\\main.xml",
+        "source": "D:\\Downloads\\BLESimonSays\\app\\src\\main\\res\\menu\\main.xml"
+    }
+]

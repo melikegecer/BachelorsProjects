@@ -1,0 +1,44 @@
+12
+citynames
+m k j h i g f e d b c a 
+edges
+c a 5
+c d 2
+c g 4
+a c 5
+a d 4
+a b 3
+b e 3
+b a 3
+b f 6
+d c 2
+d a 4
+d e 1
+d h 5
+e d 1
+e b 3
+e f 2
+e i 4
+f b 6
+f e 2
+f j 5
+g c 4
+g h 3
+g k 6
+h g 3
+h d 5
+h k 7
+h i 6
+i h 6
+i e 4
+i j 3
+i m 5
+j i 3
+j f 5
+j m 9
+k g 6
+k h 7
+k m 8
+m k 8
+m i 5
+m j 9

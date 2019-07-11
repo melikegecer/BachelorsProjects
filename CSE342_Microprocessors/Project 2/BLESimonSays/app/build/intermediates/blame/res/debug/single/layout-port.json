@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "D:\\Downloads\\BLESimonSays\\app\\build\\intermediates\\res\\merged\\debug\\layout-port\\simon_says.xml",
+        "source": "D:\\Downloads\\BLESimonSays\\app\\src\\main\\res\\layout-port\\simon_says.xml"
+    },
+    {
+        "merged": "D:\\Downloads\\Remote\\RemoteAndroid\\BLESimonSays\\app\\build\\intermediates\\res\\merged\\debug\\layout-port\\simon_says.xml",
+        "source": "D:\\Downloads\\Remote\\RemoteAndroid\\BLESimonSays\\app\\src\\main\\res\\layout-port\\simon_says.xml"
+    }
+]
