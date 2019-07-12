@@ -9,3 +9,5 @@ A program to simulate mobile communication requests.
 
 ##### MelikeGecer3.java
 A word guessing game.
+
+Technologies used; Java 7 and Dr.Java
