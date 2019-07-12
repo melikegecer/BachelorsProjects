@@ -1,4 +1,7 @@
 # CSE 112 - Object Oriented Programming
+
+Technologies used; Java 7, UML Editor and NetBeans IDE
+
 ##### Project1
 A simple course registration system
 <br>
@@ -7,4 +10,3 @@ A simple course registration system
 A game implementation where an aircraft is trying to save the world from the invasion of birds.
 <br>
 
-Technologies used; Java 7, UML Editor and NetBeans IDE
