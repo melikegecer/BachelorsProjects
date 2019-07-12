@@ -1,12 +1,23 @@
 # Bachelor's Degree Projects
 - CSE 111 - Fundamentals of Programming
+  - Technologies used; Java 7 and Dr.Java
 - CSE 112 - Object Oriented Programming
+  - Technologies used; Java 7, UML Editor and NetBeans IDE
 - CSE 202 - Data Structures and Algorithms
+  - Technologies used; Java 7 and NetBeans IDE
 - CSE 222 - Database Systems
+  - Technologies used; MySQL, Java 7, JDBC, SQL and NetBeans IDE
 - CSE 252 - Human Computer Interaction
+  - Technologies used; Java 8, Java FX, NetBeans IDE and Processing
 - CSE 334 - Computer Networks
+  - Technologies used; Java 8 and NetBeans IDE
 - CSE 342 - Microprocessors
+  - Technologies used; Arduino IDE, C++ and Android Studio
 - CSE 432 - Computer and Network Security
+  - Technologies used; Java 8 and NetBeans IDE
 - CSE 462 - Natural Language Processing
+  - Technologies used; Python, PyCharm Edu
 - CSE 482 - Advanced Java Programming
+  - Technologies used; Java 8, Java FX, JPA, JavaMail, JDBC, JUnit, MySQL and NetBeans IDE
 - SE 301 - Software Engineering
+  - Technologies used; Java 8, JSF, JDBC, PrimeFaces, SQL, MySQL and NetBeans IDE
