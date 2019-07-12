@@ -1,4 +1,5 @@
 # CSE 462 - Natural Language Processing
+Technologies used; Python, PyCharm Edu
 ##### Project1
 Write the code using RegEx to find and print plural words. We are looking for plural words. In Turkish, plural words should have -ler / -lar suffixes. Therefore we should check the words which have -ler / -lar suffixes in it. Some words like -olarak- is not plural, eventhough it has -lar in it. But we need lexicon to get a word's meaning. In this homework we do not have lexicon, therefore this regular expression likely to find  words like -olarak- which do not support (ler|lar) regular expression.
 <br>
