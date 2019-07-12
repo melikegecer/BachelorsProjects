@@ -1,4 +1,5 @@
 # CSE 482 - Advanced Java Programming
+Technologies used; Java 8, Java FX, JPA, JavaMail, JDBC, JUnit, MySQL and NetBeans IDE
 ##### Project1
 The purpose of this project was to implement a course scheduler.
 <br>
