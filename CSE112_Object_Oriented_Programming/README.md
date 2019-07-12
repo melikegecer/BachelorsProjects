@@ -5,5 +5,6 @@ A simple course registration system
 
 ##### Project2
 A game implementation where an aircraft is trying to save the world from the invasion of birds.
+<br>
 
 Technologies used; Java 7, UML Editor and NetBeans IDE
