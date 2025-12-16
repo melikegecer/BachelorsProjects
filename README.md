@@ -1,4 +1,6 @@
 # Bachelor's Degree Projects
+A repository compiling various academic projects and assignments completed during my Bachelor's degree. These projects demonstrate foundational knowledge in software engineering and development.
+
 - CSE 111 - Fundamentals of Programming
   - Technologies used; Java 7 and Dr.Java
 - CSE 112 - Object Oriented Programming
